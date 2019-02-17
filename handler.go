@@ -7,23 +7,24 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// slice of url mappings
-type urlMap []map[string]string
+type pathURL struct {
+	Path string `yaml:"path"`
+	URL  string `yaml:"url"`
+}
 
-func parseYAML(yml []byte) (urlMap, error) {
-	var u urlMap
-	err := yaml.Unmarshal(yml, &u)
+func parseYAML(yml []byte) ([]pathURL, error) {
+	var urls []pathURL
+	err := yaml.Unmarshal(yml, &urls)
 	if err != nil {
 		return nil, fmt.Errorf("parseYAML: %s", err)
 	}
-	return u, nil
+	return urls, nil
 }
 
-func buildMap(urls urlMap) map[string]string {
+func buildMap(urls []pathURL) map[string]string {
 	m := make(map[string]string)
 	for _, u := range urls {
-		path, url := u["path"], u["url"]
-		m[path] = url
+		m[u.Path] = u.URL
 	}
 	return m
 }
