@@ -31,11 +31,11 @@ func main() {
 	// fallback
 	yaml, err := ioutil.ReadFile(filename)
 	if err != nil {
-		log.Fatalf("[ERROR]: %s", err)
+		log.Fatalf("[ERROR] %s", err)
 	}
-	yamlHandler, err := urlshort.YAMLHandler([]byte(yaml), mapHandler)
+	yamlHandler, err := urlshort.YAMLHandler(yaml, mapHandler)
 	if err != nil {
-		panic(err)
+		log.Fatalf("[ERROR] %s", err)
 	}
 	fmt.Println("Starting the server on :8080")
 	http.ListenAndServe(":8080", yamlHandler)
